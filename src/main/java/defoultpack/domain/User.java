@@ -16,6 +16,8 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private boolean active;
+    private String email;
+    private String activationCode;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER) // fetch - параметр который определяет как данная сущность будет
     // подгружаться относительно основной сущности. EAGER - жадный, подгружает данные при загрузке основной сущности, LAZY - ленивая, подгружает данные только когда основная сущность обратится к данному полю
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -34,9 +36,29 @@ public class User implements UserDetails {
         return username;
     }
 
+    public boolean isAdmin() {
+        return roles.contains(Role.ADMIN);
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 
     @Override
